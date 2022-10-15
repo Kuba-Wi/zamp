@@ -8,14 +8,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(spdlog REQUIRED)
 
 set(FILES
-
+    src/LibInterface.cpp
 )
 
 set(COMPILE_FLAGS -Wall -pedantic)
 include_directories(inc)
 
-# add_library(interp_core_lib STATIC ${FILES})
-# target_compile_options(interp_core_lib PRIVATE ${COMPILE_FLAGS})
+add_library(interp_core_lib STATIC ${FILES})
+target_compile_options(interp_core_lib PRIVATE ${COMPILE_FLAGS})
 
 add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME} dl)

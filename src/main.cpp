@@ -10,12 +10,12 @@
 
 using namespace std;
 
-bool ExecPreprocesor(const char * NazwaPliku, istringstream &IStrm4Cmds) {
+bool ExecPreprocesor(const char* filename, istringstream &IStrm4Cmds) {
   constexpr size_t LINE_SIZE = 500;
   char Line[LINE_SIZE];
   string Cmd4Preproc = "cpp -P ";
   ostringstream OTmpStrm;
-  Cmd4Preproc += NazwaPliku;
+  Cmd4Preproc += filename;
   FILE* pProc = popen(Cmd4Preproc.c_str(), "r");
 
   if (!pProc) {
