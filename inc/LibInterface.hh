@@ -6,9 +6,9 @@
 
 class LibInterface {
 public:
-    LibInterface(std::string CmdName);
+    LibInterface(const char* CmdName);
     ~LibInterface();
-    Interp4Command* createCmd() { return pCreateCmd_(); }
+    Interp4Command* createCmd() { return pCreateCmd_(); }   //TODO: return unique_ptr or shared_ptr
 private:
     void* LibHandler_;
     void* LibFun_;

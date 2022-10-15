@@ -1,11 +1,14 @@
 #include <iostream>
 #include <cassert>
 #include <cstdio>
+#include <map>
+#include <memory>
 #include <sstream>
 
 #include <dlfcn.h>
 
 #include "Interp4Command.hh"
+#include "LibInterface.hh"
 #include "MobileObj.hh"
 
 using namespace std;
@@ -68,4 +71,7 @@ int main()
   if (ExecPreprocesor("../opis_dzialan.cmd", stream)) {
     std::cout << stream.str();
   }
+
+  std::map<std::string, std::unique_ptr<LibInterface>> interfaceMap;
+  interfaceMap[{"Move"}] = std::make_unique<LibInterface>(LibInterface{"Move"});
 }

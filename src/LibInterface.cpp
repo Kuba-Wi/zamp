@@ -4,7 +4,7 @@
 
 #include <dlfcn.h>
 
-LibInterface::LibInterface(std::string CmdName) : CmdName_{CmdName} {
+LibInterface::LibInterface(const char* CmdName) : CmdName_{CmdName} {
     std::string libname = "libInterp4" + CmdName_ + ".so";
     LibHandler_ = dlopen(libname.c_str(), RTLD_LAZY);
 
