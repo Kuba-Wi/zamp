@@ -12,10 +12,10 @@ public:
     LibInterface(LibInterface&& other);
     ~LibInterface();
 
-    std::unique_ptr<Interp4Command> createCmd() { return std::unique_ptr<Interp4Command>(pCreateCmd_()); }
+    std::unique_ptr<Interp4Command> createCmd();
     const char* GetCmdName() const { return CmdName_.c_str(); }
 private:
     void* LibHandler_ = nullptr;
     std::string CmdName_;
-    Interp4Command* (*pCreateCmd_)(void);
+    Interp4Command* (*pCreateCmd_)(void) = nullptr;
 };

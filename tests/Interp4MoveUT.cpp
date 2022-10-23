@@ -2,6 +2,7 @@
 
 #include "Interp4Move.hh"
 
-TEST(MoveTest, vdfvgdf) {
-    ASSERT_TRUE(true);
+TEST(MoveTest, getCmdNameShouldReturnCommandName) {
+    Interp4Move im;
+    ASSERT_STREQ(im.GetCmdName(), "Move");
 }

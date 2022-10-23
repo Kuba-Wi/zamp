@@ -25,10 +25,18 @@ LibInterface::LibInterface(LibInterface&& other) {
     LibHandler_ = other.LibHandler_;
     other.LibHandler_ = nullptr;
     pCreateCmd_ = other.pCreateCmd_;
+    other.pCreateCmd_ = nullptr;
 }
 
 LibInterface::~LibInterface() {
     if (LibHandler_) {
         dlclose(LibHandler_);
     }
+}
+
+std::unique_ptr<Interp4Command> LibInterface::createCmd() {
+    if (pCreateCmd_) {
+        return std::unique_ptr<Interp4Command>(pCreateCmd_());
+    }
+    return nullptr;
 }
