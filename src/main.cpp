@@ -35,37 +35,37 @@ bool ExecPreprocesor(const char* filename, istringstream &IStrm4Cmds) {
 
 int main()
 {
-  void *pLibHnd_Move = dlopen("libInterp4Move.so", RTLD_LAZY);
-  Interp4Command *(*pCreateCmd_Move)(void);
-  void *pFun;
+  // void *pLibHnd_Move = dlopen("libInterp4Move.so", RTLD_LAZY);
+  // Interp4Command *(*pCreateCmd_Move)(void);
+  // void *pFun;
 
-  if (!pLibHnd_Move) {
-    cerr << "!!! Brak biblioteki: Interp4Move.so" << endl;
-    return 1;
-  }
-
-
-  pFun = dlsym(pLibHnd_Move, "CreateCmd");
-  if (!pFun) {
-    cerr << "!!! Nie znaleziono funkcji CreateCmd" << endl;
-    return 1;
-  }
-  pCreateCmd_Move = *reinterpret_cast<Interp4Command* (**)(void)>(&pFun);
+  // if (!pLibHnd_Move) {
+  //   cerr << "!!! Brak biblioteki: Interp4Move.so" << endl;
+  //   return 1;
+  // }
 
 
-  Interp4Command *pCmd = pCreateCmd_Move();
+  // pFun = dlsym(pLibHnd_Move, "CreateCmd");
+  // if (!pFun) {
+  //   cerr << "!!! Nie znaleziono funkcji CreateCmd" << endl;
+  //   return 1;
+  // }
+  // pCreateCmd_Move = reinterpret_cast<Interp4Command* (*)(void)>(pFun);
 
-  cout << endl;
-  cout << pCmd->GetCmdName() << endl;
-  cout << endl;
-  pCmd->PrintSyntax();
-  cout << endl;
-  pCmd->PrintCmd();
-  cout << endl;
+
+  // Interp4Command *pCmd = pCreateCmd_Move();
+
+  // cout << endl;
+  // cout << pCmd->GetCmdName() << endl;
+  // cout << endl;
+  // pCmd->PrintSyntax();
+  // cout << endl;
+  // pCmd->PrintCmd();
+  // cout << endl;
   
-  delete pCmd;
+  // delete pCmd;
 
-  dlclose(pLibHnd_Move);
+  // dlclose(pLibHnd_Move);
 
   istringstream stream;
   if (ExecPreprocesor("../opis_dzialan.cmd", stream)) {
@@ -74,4 +74,13 @@ int main()
 
   std::map<std::string, std::unique_ptr<LibInterface>> interfaceMap;
   interfaceMap[{"Move"}] = std::make_unique<LibInterface>(LibInterface{"Move"});
+
+  std::unique_ptr<Interp4Command> ptr = interfaceMap["Move"]->createCmd();
+  cout << endl;
+  cout << ptr->GetCmdName() << endl;
+  cout << endl;
+  ptr->PrintSyntax();
+  cout << endl;
+  ptr->PrintCmd();
+  cout << endl;
 }

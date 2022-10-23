@@ -13,15 +13,22 @@ LibInterface::LibInterface(const char* CmdName) : CmdName_{CmdName} {
         exit(0);
     }
 
-
-    LibFun_ = dlsym(LibHandler_, "CreateCmd");
-    if (!LibFun_) {
+    void* LibFun = dlsym(LibHandler_, "CreateCmd");
+    if (!LibFun) {
         std::cerr << "!!! CreateCmd not found" << std::endl;
         exit(0);
     }
-    pCreateCmd_ = *reinterpret_cast<Interp4Command* (**)(void)>(&LibFun_);
+    pCreateCmd_ = reinterpret_cast<Interp4Command* (*)(void)>(LibFun);
+}
+
+LibInterface::LibInterface(LibInterface&& other) {
+    LibHandler_ = other.LibHandler_;
+    other.LibHandler_ = nullptr;
+    pCreateCmd_ = other.pCreateCmd_;
 }
 
 LibInterface::~LibInterface() {
-    dlclose(LibHandler_);
+    if (LibHandler_) {
+        dlclose(LibHandler_);
+    }
 }

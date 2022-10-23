@@ -26,7 +26,8 @@ class Interp4Move: public Interp4Command {
    *  do przechowywania wartości parametrów danego polecenia.
    *  Ponieżej zdefiniowane jest tylko jedno pole jako przykład.
    */
-  double  _Speed_mmS;
+  double _Speed_mS;
+  double _Distance_m;
  public:
   /*!
    * \brief
@@ -35,27 +36,27 @@ class Interp4Move: public Interp4Command {
   /*!
    * \brief Wyświetla postać bieżącego polecenia (nazwę oraz wartości parametrów)
    */
-  virtual void PrintCmd() const;
+  void PrintCmd() const override;
   /*!
    * \brief Wyświetla składnię polecenia
    */
-  virtual void PrintSyntax() const;
+  void PrintSyntax() const override;
   /*!
    * \brief Wyświetla nazwę polecenia
    */
-  virtual const char* GetCmdName() const;
+  const char* GetCmdName() const override;
   /*!
    * \brief Wykonuje polecenie oraz wizualizuje jego realizację
    */
-  virtual bool ExecCmd( MobileObj  *pMobObj, int Socket) const;
+  bool ExecCmd(MobileObj *pMobObj, int Socket) const override;
   /*!
    * \brief Czyta wartości parametrów danego polecenia
    */
-  virtual bool ReadParams(std::istream& Strm_CmdsList);
+  bool ReadParams(std::istream& Strm_CmdsList) override;
   /*!
    * \brief Wyświetla wartości wczytanych parametrów
    */
-  virtual void PrintParams() {}
+  void PrintParams() {}
   /*!
    * \brief
    *
