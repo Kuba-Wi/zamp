@@ -44,38 +44,6 @@ void printInterp4Commands(const std::unique_ptr<Interp4Command>& command_ptr) {
 
 int main()
 {
-  // void *pLibHnd_Move = dlopen("libInterp4Move.so", RTLD_LAZY);
-  // Interp4Command *(*pCreateCmd_Move)(void);
-  // void *pFun;
-
-  // if (!pLibHnd_Move) {
-  //   cerr << "!!! Brak biblioteki: Interp4Move.so" << endl;
-  //   return 1;
-  // }
-
-
-  // pFun = dlsym(pLibHnd_Move, "CreateCmd");
-  // if (!pFun) {
-  //   cerr << "!!! Nie znaleziono funkcji CreateCmd" << endl;
-  //   return 1;
-  // }
-  // pCreateCmd_Move = reinterpret_cast<Interp4Command* (*)(void)>(pFun);
-
-
-  // Interp4Command *pCmd = pCreateCmd_Move();
-
-  // cout << endl;
-  // cout << pCmd->GetCmdName() << endl;
-  // cout << endl;
-  // pCmd->PrintSyntax();
-  // cout << endl;
-  // pCmd->PrintCmd();
-  // cout << endl;
-  
-  // delete pCmd;
-
-  // dlclose(pLibHnd_Move);
-
   istringstream stream;
   if (ExecPreprocesor("../opis_dzialan.cmd", stream)) {
     std::cout << stream.str();
@@ -84,6 +52,8 @@ int main()
   std::map<std::string, std::unique_ptr<LibInterface>> interfaceMap;
   interfaceMap[{"Move"}] = std::make_unique<LibInterface>(LibInterface{"Move"});
   interfaceMap[{"Set"}] = std::make_unique<LibInterface>(LibInterface{"Set"});
+  interfaceMap[{"Rotate"}] = std::make_unique<LibInterface>(LibInterface{"Rotate"});
+  interfaceMap[{"Pause"}] = std::make_unique<LibInterface>(LibInterface{"Pause"});
 
   for (auto& [key, value] : interfaceMap) {
     std::unique_ptr<Interp4Command> cmd_ptr = value->createCmd();

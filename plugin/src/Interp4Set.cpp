@@ -78,5 +78,5 @@ Interp4Command* Interp4Set::CreateCmd()
 
 void Interp4Set::PrintSyntax() const
 {
-  cout << "   Set  ObjectName  Position_X[m]  Posiotion_Y[m] Angle_OZ[deg]" << endl;
+  cout << "   Set  ObjectName  Position_X[m]  Position_Y[m] Angle_OZ[deg]" << endl;
 }

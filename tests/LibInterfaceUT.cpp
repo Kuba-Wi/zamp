@@ -2,7 +2,7 @@
 
 #include "LibInterface.hh"
 
-TEST(LibInterfaceTest, getCmdNameShouldReturnMove) {
+TEST(LibInterfaceTest, getCmdNameShouldReturnCommandName) {
     LibInterface li{"Move"};
     ASSERT_STREQ(li.GetCmdName(), "Move");
 }
@@ -22,13 +22,20 @@ TEST(LibInterfaceTest, moveContructorShouldMoveMemberObjects) {
     ASSERT_STREQ(interpCmdPtr->GetCmdName(), "Move");
 }
 
-TEST(LibInterfaceTest, getCmdNameShouldReturnSet) {
-    LibInterface li{"Set"};
-    ASSERT_STREQ(li.GetCmdName(), "Set");
-}
-
 TEST(LibInterfaceTest, createCmdShouldCreateInterp4ComandForSet) {
     LibInterface li{"Set"};
     std::unique_ptr<Interp4Command> interpCmdPtr = li.createCmd();
     ASSERT_STREQ(interpCmdPtr->GetCmdName(), "Set");
+}
+
+TEST(LibInterfaceTest, createCmdShouldCreateInterp4ComandForRotate) {
+    LibInterface li{"Rotate"};
+    std::unique_ptr<Interp4Command> interpCmdPtr = li.createCmd();
+    ASSERT_STREQ(interpCmdPtr->GetCmdName(), "Rotate");
+}
+
+TEST(LibInterfaceTest, createCmdShouldCreateInterp4ComandForPause) {
+    LibInterface li{"Pause"};
+    std::unique_ptr<Interp4Command> interpCmdPtr = li.createCmd();
+    ASSERT_STREQ(interpCmdPtr->GetCmdName(), "Pause");
 }
