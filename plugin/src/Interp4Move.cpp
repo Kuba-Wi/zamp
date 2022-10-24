@@ -11,49 +11,25 @@ extern "C" {
   const char* GetCmdName() { return "Move"; }
 }
 
-
-
-
-/*!
- * \brief
- *
- *
- */
 Interp4Command* CreateCmd(void)
 {
   return Interp4Move::CreateCmd();
 }
 
-
-/*!
- *
- */
 Interp4Move::Interp4Move(): _Speed_mS(0), _Distance_m(0)
 {}
 
-
-/*!
- *
- */
 void Interp4Move::PrintCmd() const
 {
-  cout << GetCmdName() << " " << _Speed_mS  << " " << _Distance_m << endl;
+  cout << GetCmdName() << " " << _ObjectName << " " << _Speed_mS  << " " << _Distance_m << endl;
 }
 
-
-/*!
- *
- */
 const char* Interp4Move::GetCmdName() const
 {
   return ::GetCmdName();
 }
 
-
-/*!
- *
- */
-bool Interp4Move::ExecCmd( MobileObj  *pMobObj,  int  Socket) const
+bool Interp4Move::ExecCmd(MobileObj *pMobObj, int Socket) const
 {
   /*
    *  Tu trzeba napisać odpowiedni kod.
@@ -61,32 +37,33 @@ bool Interp4Move::ExecCmd( MobileObj  *pMobObj,  int  Socket) const
   return true;
 }
 
-
-/*!
- *
- */
 bool Interp4Move::ReadParams(std::istream& Strm_CmdsList)
 {
-  /*
-   *  Tu trzeba napisać odpowiedni kod.
-   */
+  if (!(Strm_CmdsList >> _ObjectName)) {
+    _ObjectName = "";
+    return false;
+  }
+  if (!(Strm_CmdsList >> _Speed_mS)) {
+    _ObjectName = "";
+    _Speed_mS = 0;
+    return false;
+  }
+  if (!(Strm_CmdsList >> _Distance_m)) {
+    _ObjectName = "";
+    _Speed_mS = 0;
+    _Distance_m = 0;
+    return false;
+  }
+
   return true;
 }
 
-
-/*!
- *
- */
 Interp4Command* Interp4Move::CreateCmd()
 {
   return new Interp4Move();
 }
 
-
-/*!
- *
- */
 void Interp4Move::PrintSyntax() const
 {
-  cout << "   Move  NazwaObiektu  Szybkosc[m/s]  DlugoscDrogi[m]" << endl;
+  cout << "   Move  ObjectName  Speed[m/s]  Distance[m]" << endl;
 }
