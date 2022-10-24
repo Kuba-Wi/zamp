@@ -2,12 +2,12 @@
 
 #include "LibInterface.hh"
 
-TEST(LibInterfaceTest, getCmdNameShouldReturnComandName) {
+TEST(LibInterfaceTest, getCmdNameShouldReturnMove) {
     LibInterface li{"Move"};
     ASSERT_STREQ(li.GetCmdName(), "Move");
 }
 
-TEST(LibInterfaceTest, createCmdShouldCreateInterp4Comand) {
+TEST(LibInterfaceTest, createCmdShouldCreateInterp4ComandForMove) {
     LibInterface li{"Move"};
     std::unique_ptr<Interp4Command> interpCmdPtr = li.createCmd();
     ASSERT_STREQ(interpCmdPtr->GetCmdName(), "Move");
@@ -20,4 +20,15 @@ TEST(LibInterfaceTest, moveContructorShouldMoveMemberObjects) {
 
     std::unique_ptr<Interp4Command> interpCmdPtr = liMoved.createCmd();
     ASSERT_STREQ(interpCmdPtr->GetCmdName(), "Move");
+}
+
+TEST(LibInterfaceTest, getCmdNameShouldReturnSet) {
+    LibInterface li{"Set"};
+    ASSERT_STREQ(li.GetCmdName(), "Set");
+}
+
+TEST(LibInterfaceTest, createCmdShouldCreateInterp4ComandForSet) {
+    LibInterface li{"Set"};
+    std::unique_ptr<Interp4Command> interpCmdPtr = li.createCmd();
+    ASSERT_STREQ(interpCmdPtr->GetCmdName(), "Set");
 }

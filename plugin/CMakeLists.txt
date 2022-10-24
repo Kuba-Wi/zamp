@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(Interp4Move)
-
-set(FILES_LIB
-    src/Interp4Move.cpp
-)
+project(plugins)
 
 include_directories(inc)
 
-add_library(${PROJECT_NAME} SHARED ${FILES_LIB})
-target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILE_FLAGS})
+add_library(Interp4Move SHARED src/Interp4Move.cpp)
+target_compile_options(Interp4Move PRIVATE ${COMPILE_FLAGS})
+
+add_library(Interp4Set SHARED src/Interp4Set.cpp)
+target_compile_options(Interp4Set PRIVATE ${COMPILE_FLAGS})

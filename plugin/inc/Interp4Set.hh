@@ -1,5 +1,4 @@
-#ifndef  COMMAND4MOVE_HH
-#define  COMMAND4MOVE_HH
+#pragma once
 
 #ifndef __GNUG__
 # pragma interface
@@ -12,9 +11,9 @@
 
 /*!
  * \file
- * \brief Definicja klasy Interp4Move
+ * \brief Definicja klasy Interp4Set
  *
- * Plik zawiera definicję klasy Interp4Move ...
+ * Plik zawiera definicję klasy Interp4Set ...
  */
 
 /*!
@@ -22,15 +21,16 @@
  *
  *  Klasa modeluje ...
  */
-class Interp4Move: public Interp4Command {
+class Interp4Set: public Interp4Command {
   /*
    *  Tu należy zdefiniować pola, które są niezbędne
    *  do przechowywania wartości parametrów danego polecenia.
    *  Ponieżej zdefiniowane jest tylko jedno pole jako przykład.
    */
   std::string _ObjectName;
-  double _Speed_mS;
-  double _Distance_m;
+  double _Position_x;
+  double _Position_y;
+  double _Angle_Oz;
 
   void ResetParameters();
 
@@ -38,7 +38,7 @@ class Interp4Move: public Interp4Command {
   /*!
    * \brief
    */
-  Interp4Move();  
+  Interp4Set();  
   /*!
    * \brief Wyświetla postać bieżącego polecenia (nazwę oraz wartości parametrów)
    */
@@ -70,5 +70,3 @@ class Interp4Move: public Interp4Command {
    */
   static Interp4Command* CreateCmd();
  };
-
-#endif

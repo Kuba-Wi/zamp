@@ -32,6 +32,15 @@ bool ExecPreprocesor(const char* filename, istringstream &IStrm4Cmds) {
   return pclose(pProc) == 0;
 }
 
+void printInterp4Commands(const std::unique_ptr<Interp4Command>& command_ptr) {
+  cout << endl;
+  cout << command_ptr->GetCmdName() << endl;
+  cout << endl;
+  command_ptr->PrintSyntax();
+  cout << endl;
+  command_ptr->PrintCmd();
+  cout << endl;
+}
 
 int main()
 {
@@ -74,13 +83,10 @@ int main()
 
   std::map<std::string, std::unique_ptr<LibInterface>> interfaceMap;
   interfaceMap[{"Move"}] = std::make_unique<LibInterface>(LibInterface{"Move"});
+  interfaceMap[{"Set"}] = std::make_unique<LibInterface>(LibInterface{"Set"});
 
-  std::unique_ptr<Interp4Command> ptr = interfaceMap["Move"]->createCmd();
-  cout << endl;
-  cout << ptr->GetCmdName() << endl;
-  cout << endl;
-  ptr->PrintSyntax();
-  cout << endl;
-  ptr->PrintCmd();
-  cout << endl;
+  for (auto& [key, value] : interfaceMap) {
+    std::unique_ptr<Interp4Command> cmd_ptr = value->createCmd();
+    printInterp4Commands(cmd_ptr);
+  }
 }

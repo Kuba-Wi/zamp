@@ -7,8 +7,14 @@ using std::endl;
 
 
 extern "C" {
- Interp4Command* CreateCmd(void);
+  Interp4Command* CreateCmd(void);
   const char* GetCmdName() { return "Move"; }
+}
+
+void Interp4Move::ResetParameters() {
+  _ObjectName = "";
+  _Speed_mS = 0;
+  _Distance_m = 0;
 }
 
 Interp4Command* CreateCmd(void)
@@ -40,18 +46,15 @@ bool Interp4Move::ExecCmd(MobileObj *pMobObj, int Socket) const
 bool Interp4Move::ReadParams(std::istream& Strm_CmdsList)
 {
   if (!(Strm_CmdsList >> _ObjectName)) {
-    _ObjectName = "";
+    this->ResetParameters();
     return false;
   }
   if (!(Strm_CmdsList >> _Speed_mS)) {
-    _ObjectName = "";
-    _Speed_mS = 0;
+    this->ResetParameters();
     return false;
   }
   if (!(Strm_CmdsList >> _Distance_m)) {
-    _ObjectName = "";
-    _Speed_mS = 0;
-    _Distance_m = 0;
+    this->ResetParameters();
     return false;
   }
 

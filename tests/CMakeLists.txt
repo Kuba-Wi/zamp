@@ -2,16 +2,28 @@ cmake_minimum_required(VERSION 3.10)
 
 project(tests_interp)
 
-set(FILES_UT
-    LibInterfaceUT.cpp
-    Interp4MoveUT.cpp
-)
+set(LIBRARIES
+    interp_core_lib 
+    gtest_main 
+    gtest
+    pthread 
+    dl)
 
 include_directories(../plugin/inc)
 
-add_executable(${PROJECT_NAME} ${FILES_UT})
-target_link_libraries(${PROJECT_NAME} interp_core_lib gtest_main gtest pthread dl Interp4Move)
-target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILE_FLAGS})
+add_executable(libint_tests LibInterfaceUT.cpp)
+target_link_libraries(libint_tests ${LIBRARIES})
+target_compile_options(libint_tests PRIVATE ${COMPILE_FLAGS})
+
+add_executable(int_move_tests Interp4MoveUT.cpp)
+target_link_libraries(int_move_tests ${LIBRARIES} Interp4Move)
+target_compile_options(int_move_tests PRIVATE ${COMPILE_FLAGS})
+
+add_executable(int_set_tests Interp4SetUT.cpp)
+target_link_libraries(int_set_tests ${LIBRARIES} Interp4Set)
+target_compile_options(int_set_tests PRIVATE ${COMPILE_FLAGS})
 
 enable_testing()
-add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
+add_test(NAME libinterface_tests COMMAND libint_tests)
+add_test(NAME interp4move_tests COMMAND int_move_tests)
+add_test(NAME interp4set_tests COMMAND int_set_tests)
