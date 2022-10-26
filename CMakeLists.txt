@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(FILES
     src/LibInterface.cpp
+    src/ProgramInterpreter.cpp
 )
 
 set(COMPILE_FLAGS -Wall -pedantic)
