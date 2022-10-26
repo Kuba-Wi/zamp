@@ -6,13 +6,12 @@ set(LIBRARIES
     interp_core_lib 
     gtest_main 
     gtest
-    pthread 
-    dl)
+    pthread)
 
 include_directories(../plugin/inc)
 
-add_executable(libint_tests LibInterfaceUT.cpp)
-target_link_libraries(libint_tests ${LIBRARIES})
+add_executable(libint_tests LibInterfaceUT.cpp ProgramInterpreterUT.cpp)
+target_link_libraries(libint_tests ${LIBRARIES} dl)
 target_compile_options(libint_tests PRIVATE ${COMPILE_FLAGS})
 
 add_executable(int_move_tests Interp4MoveUT.cpp)
