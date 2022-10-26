@@ -41,6 +41,11 @@ bool Interp4Rotate::ExecCmd(MobileObj *pMobObj, int Socket) const
   /*
    *  Tu trzeba napisać odpowiedni kod.
    */
+  std::cout << "Executing rotate: " 
+            << _ObjectName << " "
+            << _Speed << " "
+            << _Angle << std::endl;
+
   return true;
 }
 

@@ -13,6 +13,12 @@ TEST(MoveTest, readParamsShouldReturnTrueWhenCorrectInput) {
     ASSERT_TRUE(im.ReadParams(str));
 }
 
+TEST(MoveTest, execCmdShouldReturnTrueWhenCorrectInput) {
+    Interp4Move im;
+    std::istream str{std::istringstream{"Ob_A 123 90\n"}.rdbuf()};
+    ASSERT_TRUE(im.ExecCmd(nullptr, 0));
+}
+
 struct MoveFalseTest : ::testing::Test, ::testing::WithParamInterface<const char*> {};
 
 INSTANTIATE_TEST_CASE_P(TestsWithFalseResult,

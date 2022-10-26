@@ -40,6 +40,11 @@ bool Interp4Move::ExecCmd(MobileObj *pMobObj, int Socket) const
   /*
    *  Tu trzeba napisać odpowiedni kod.
    */
+  std::cout << "Executing move: " 
+            << _ObjectName << " "
+            << _Speed_mS << " "
+            << _Distance_m << std::endl;
+
   return true;
 }
 

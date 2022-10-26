@@ -13,6 +13,12 @@ TEST(SetTest, readParamsShouldReturnTrueWhenCorrectInput) {
     ASSERT_TRUE(im.ReadParams(str));
 }
 
+TEST(SetTest, execCmdShouldReturnTrueWhenCorrectInput) {
+    Interp4Set im;
+    std::istream str{std::istringstream{"Ob_A 123 90\n"}.rdbuf()};
+    ASSERT_TRUE(im.ExecCmd(nullptr, 0));
+}
+
 struct SetFalseTest : ::testing::Test, ::testing::WithParamInterface<const char*> {};
 
 INSTANTIATE_TEST_CASE_P(TestsWithFalseResult,

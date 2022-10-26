@@ -1,6 +1,6 @@
-#include <iostream>
 #include <cassert>
 #include <cstdio>
+#include <iostream>
 #include <map>
 #include <memory>
 #include <sstream>
@@ -45,8 +45,8 @@ void printInterp4Commands(const std::unique_ptr<Interp4Command>& command_ptr) {
 int main()
 {
   istringstream stream;
-  if (ExecPreprocesor("../opis_dzialan.cmd", stream)) {
-    std::cout << stream.str();
+  if (!ExecPreprocesor("../opis_dzialan.cmd", stream)) {
+    return 0;
   }
 
   std::map<std::string, std::unique_ptr<LibInterface>> interfaceMap;
@@ -55,8 +55,19 @@ int main()
   interfaceMap[{"Rotate"}] = std::make_unique<LibInterface>(LibInterface{"Rotate"});
   interfaceMap[{"Pause"}] = std::make_unique<LibInterface>(LibInterface{"Pause"});
 
-  for (auto& [key, value] : interfaceMap) {
-    std::unique_ptr<Interp4Command> cmd_ptr = value->createCmd();
-    printInterp4Commands(cmd_ptr);
+  std::string plugin_name;
+  while (stream >> plugin_name) {
+    if (interfaceMap.find(plugin_name) == interfaceMap.end()) {
+      std::cout << "No plugin named: " << plugin_name << std::endl;
+      return 0;
+    }
+
+    auto cmd_ptr = interfaceMap[plugin_name]->createCmd();
+    if(!cmd_ptr->ReadParams(stream)) {
+      std::cout << "Error in reading parameters of plugin " << plugin_name << std::endl;
+      return 0;
+    }
+    cmd_ptr->PrintCmd();
+    cmd_ptr->ExecCmd(nullptr, 0);
   }
 }

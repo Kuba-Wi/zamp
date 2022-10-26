@@ -46,6 +46,12 @@ bool Interp4Set::ExecCmd(MobileObj *pMobObj, int Socket) const
   /*
    *  Tu trzeba napisać odpowiedni kod.
    */
+  std::cout << "Executing set: " 
+            << _ObjectName << " "
+            << _Position_x << " "
+            << _Position_y << " "
+            << _Angle_Oz << std::endl;
+
   return true;
 }
 
