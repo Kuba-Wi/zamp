@@ -6,6 +6,7 @@
 #include <string>
 
 #include "LibInterface.hh"
+#include "Scene.hh"
 
 class ProgramInterpreter {
 public:
@@ -18,5 +19,5 @@ private:
 
     std::map<std::string, std::unique_ptr<LibInterface>> LibManager_;
     int Socket2Serv_;
-    // Scene Scn_; // TODO
+    Scene Scn_;
 };
