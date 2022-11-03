@@ -44,7 +44,7 @@ bool ProgramInterpreter::ExecProgram(const char* filename) {
 
         auto cmd_ptr = LibManager_[plugin_name]->createCmd();
         if (!cmd_ptr) {
-            std::cout << "Error: plugin " << plugin_name << " does not exist" << std::endl;
+            std::cout << "Error in creating command of plugin " << plugin_name << std::endl;
             return true;
         }
 

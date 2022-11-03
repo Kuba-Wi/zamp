@@ -2,6 +2,11 @@
 
 #include "LibInterface.hh"
 
+TEST(LibInterfaceTest, createCmdBuilderShouldFailForWrongLibname) {
+    LibInterface li{"XD"};
+    ASSERT_FALSE(li.createCmdBuilder());
+}
+
 TEST(LibInterfaceTest, createCmdShouldCreateInterp4ComandForMove) {
     LibInterface li{"Move"};
     li.createCmdBuilder();
