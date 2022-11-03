@@ -6,10 +6,25 @@
 #include <string>
 
 bool ProgramInterpreter::Read_XML_Config(const char* filename) {
-    LibManager_[{"Move"}] = std::make_unique<LibInterface>(LibInterface{"Move"});
-    LibManager_[{"Set"}] = std::make_unique<LibInterface>(LibInterface{"Set"});
-    LibManager_[{"Rotate"}] = std::make_unique<LibInterface>(LibInterface{"Rotate"});
-    LibManager_[{"Pause"}] = std::make_unique<LibInterface>(LibInterface{"Pause"});
+    if (!CreateInterpCommand("Move")) {
+        RemoveInterpCommand("Move");
+        return false;
+    }
+
+    if (!CreateInterpCommand("Set")) {
+        RemoveInterpCommand("Set");
+        return false;
+    }
+
+    if (!CreateInterpCommand("Rotate")) {
+        RemoveInterpCommand("Rotate");
+        return false;
+    }
+
+    if (!CreateInterpCommand("Pause")) {
+        RemoveInterpCommand("Pause");
+        return false;
+    }
 
     return true;
 }
@@ -28,6 +43,11 @@ bool ProgramInterpreter::ExecProgram(const char* filename) {
         }
 
         auto cmd_ptr = LibManager_[plugin_name]->createCmd();
+        if (!cmd_ptr) {
+            std::cout << "Error: plugin " << plugin_name << " does not exist" << std::endl;
+            return true;
+        }
+
         if(!cmd_ptr->ReadParams(cmdStream)) {
             std::cout << "Error in reading parameters of plugin " << plugin_name << std::endl;
             return false;
@@ -56,4 +76,16 @@ bool ProgramInterpreter::ExecPreprocesor(const char* filename, std::istringstrea
     }
     outStream.str(OTmpStrm.str());
     return pclose(pProc) == 0;
+}
+
+bool ProgramInterpreter::CreateInterpCommand(const std::string& libname) {
+    LibManager_[libname] = std::make_unique<LibInterface>(LibInterface{libname});
+    return LibManager_[libname]->createCmdBuilder();
+}
+
+void ProgramInterpreter::RemoveInterpCommand(const std::string& libname) {
+    auto it = LibManager_.find(libname);
+    if (it != LibManager_.end()) {
+        LibManager_.erase(it);
+    }
 }

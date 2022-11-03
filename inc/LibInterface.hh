@@ -7,13 +7,13 @@
 
 class LibInterface {
 public:
-    LibInterface(const char* CmdName);
+    LibInterface(const std::string& CmdName) : CmdName_{CmdName} {}
     LibInterface(const LibInterface&) = delete;
     LibInterface(LibInterface&& other);
     ~LibInterface();
 
+    bool createCmdBuilder();
     std::unique_ptr<Interp4Command> createCmd();
-    const char* GetCmdName() const { return CmdName_.c_str(); }
 private:
     void* LibHandler_ = nullptr;
     std::string CmdName_;
