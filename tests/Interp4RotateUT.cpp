@@ -30,7 +30,7 @@ INSTANTIATE_TEST_CASE_P(TestsWithFalseResult,
                                           "Ob_A 12 xd\n",
                                           "Ob_A xd 12\n"));
 
-TEST_P(RotateFalseTest, readParamsShouldReturnFalseWhenCorrectInput) {
+TEST_P(RotateFalseTest, readParamsShouldReturnFalseWhenWrongInput) {
     Interp4Rotate im;
     std::istream str{std::istringstream{GetParam()}.rdbuf()};
     ASSERT_FALSE(im.ReadParams(str));

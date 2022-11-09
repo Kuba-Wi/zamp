@@ -26,7 +26,7 @@ INSTANTIATE_TEST_CASE_P(TestsWithFalseResult,
                         ::testing::Values("Ob_A\n",
                                           ""));
 
-TEST_P(PauseFalseTest, readParamsShouldReturnFalseWhenCorrectInput) {
+TEST_P(PauseFalseTest, readParamsShouldReturnFalseWhenWrongInput) {
     Interp4Pause im;
     std::istream str{std::istringstream{GetParam()}.rdbuf()};
     ASSERT_FALSE(im.ReadParams(str));

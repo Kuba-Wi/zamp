@@ -30,7 +30,7 @@ INSTANTIATE_TEST_CASE_P(TestsWithFalseResult,
                                           "Ob_A 12 11 xd\n",
                                           "Ob_A xd 12 11\n"));
 
-TEST_P(SetFalseTest, readParamsShouldReturnFalseWhenCorrectInput) {
+TEST_P(SetFalseTest, readParamsShouldReturnFalseWhenWrongInput) {
     Interp4Set im;
     std::istream str{std::istringstream{GetParam()}.rdbuf()};
     ASSERT_FALSE(im.ReadParams(str));
