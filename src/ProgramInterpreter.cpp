@@ -14,16 +14,17 @@
 using namespace std;
 using namespace xercesc;
 
-// TODO: use it to put operations on mobileObj
-// for (const auto& [name, oper] : config_.getObjOperations()) {
-//     std::cout << name << ":\n";
-//     for (const auto& [op_name, val] : oper) {
-//         std::cout << op_name << " " << val << "\n";
-//     }
-// }
-
 bool ProgramInterpreter::ExecProgram(const char* filename) {
     this->CreateInterpCommands();
+
+    for (const auto& [obj_name, oper] : config_.getObjOperations()) {
+        Scn_.AddMobileObj(obj_name);
+        for (const auto& [op_name, val] : oper) {
+            Scn_.AddObjOperation(obj_name, op_name, val);
+        }
+    }
+
+    Scn_.printObjects();
 
     std::istringstream cmdStream;
     if (!this->ExecPreprocesor(filename, cmdStream)) {

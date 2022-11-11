@@ -1,7 +1,7 @@
 #ifndef MOBILEOBJ_HH
 #define MOBILEOBJ_HH
 
-
+#include <map>
 #include <string>
 #include "Vector3D.hh"
 
@@ -64,15 +64,20 @@
         * Nazwa obiektu, która go indentyfikuje. Z tego względu musi
         * musi to być nazwa unikalna wśród wszystkich obiektów na scenie.
         */
-       std::string  _Name;
 
-       Vector3D _RGB;
-       Vector3D _Scale;
-       Vector3D _Shift;
-       Vector3D _RotXYZ_deg;
-       Vector3D _Trans_m;
+       std::string  _Name;
+       std::map<std::string, Vector3D> _name_vec_map; 
 
      public:
+        MobileObj() {
+            _name_vec_map["RGB"] = Vector3D{};
+            _name_vec_map["Scale"] = Vector3D{};
+            _name_vec_map["Shift"] = Vector3D{};
+            _name_vec_map["RotXYZ_deg"] = Vector3D{};
+            _name_vec_map["Trans_m"] = Vector3D{};
+        }
+
+        const std::map<std::string, Vector3D>& getVecMap() { return _name_vec_map; }
       /*!
        * \brief Udostępia wartość kąta \e roll.
        *
@@ -155,11 +160,9 @@
         */
        const std::string & GetName() const { return _Name; }
 
-       void SetRGB(const Vector3D& rgb) { _RGB = rgb; }
-       void SetScale(const Vector3D& scale) { _Scale = scale; }
-       void SetShift(const Vector3D& shift) { _Shift = shift; }
-       void SetRotXYZ(const Vector3D& rot_xyz) { _RotXYZ_deg = rot_xyz; }
-       void SetTrans(const Vector3D& trans) { _Trans_m = trans; }
+       void SetVectParam(const std::string& name, const Vector3D& values) {
+          _name_vec_map[name] = values;
+       }
     };
 
 

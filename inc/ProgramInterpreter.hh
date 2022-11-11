@@ -22,7 +22,7 @@ private:
     void RemoveInterpCommand(const std::string& libname);
 
     std::map<std::string, std::unique_ptr<LibInterface>> LibManager_;
-    int Socket2Serv_;
+    int Socket2Serv_ = 6217;
     Scene Scn_;
     Configuration config_;
 };

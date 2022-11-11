@@ -45,7 +45,7 @@ public:
   const std::set<std::string>& getLibNames() const { return libNames_; }
   const std::vector<nameOperations_pair>& getObjOperations() const { return objectsOperations_; }
 
-// private:
+private:
   bool checkIfObjOpersContainObj(const std::string& objName);
 
   std::set<std::string> libNames_;
