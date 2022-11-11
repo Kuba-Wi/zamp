@@ -66,6 +66,12 @@
         */
        std::string  _Name;
 
+       Vector3D _RGB;
+       Vector3D _Scale;
+       Vector3D _Shift;
+       Vector3D _RotXYZ_deg;
+       Vector3D _Trans_m;
+
      public:
       /*!
        * \brief Udostępia wartość kąta \e roll.
@@ -148,6 +154,12 @@
 	* Udostępnia nazwę obiektu w trybie tylko do odczytu.
         */
        const std::string & GetName() const { return _Name; }
+
+       void SetRGB(const Vector3D& rgb) { _RGB = rgb; }
+       void SetScale(const Vector3D& scale) { _Scale = scale; }
+       void SetShift(const Vector3D& shift) { _Shift = shift; }
+       void SetRotXYZ(const Vector3D& rot_xyz) { _RotXYZ_deg = rot_xyz; }
+       void SetTrans(const Vector3D& trans) { _Trans_m = trans; }
     };
 
 
