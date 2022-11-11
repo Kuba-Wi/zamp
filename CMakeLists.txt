@@ -9,6 +9,7 @@ set(FILES
     src/LibInterface.cpp
     src/ProgramInterpreter.cpp
     src/Scene.cpp
+    src/xmlinterp.cpp
 )
 
 set(COMPILE_FLAGS -Wall -pedantic)
