@@ -16,13 +16,7 @@ using namespace xercesc;
 
 bool ProgramInterpreter::ExecProgram(const char* filename) {
     this->CreateInterpCommands();
-
-    for (const auto& [obj_name, oper] : config_.getObjOperations()) {
-        Scn_.AddMobileObj(obj_name);
-        for (const auto& [op_name, val] : oper) {
-            Scn_.AddObjOperation(obj_name, op_name, val);
-        }
-    }
+    this->AddObjectsToScene();
 
     Scn_.printObjects();
 
@@ -72,6 +66,15 @@ bool ProgramInterpreter::ExecPreprocesor(const char* filename, std::istringstrea
     }
     outStream.str(OTmpStrm.str());
     return pclose(pProc) == 0;
+}
+
+void ProgramInterpreter::AddObjectsToScene() {
+    for (const auto& [obj_name, oper_vect] : config_.getObjOperations()) {
+        Scn_.AddMobileObj(obj_name);
+        for (const auto& [op_name, val] : oper_vect) {
+            Scn_.AddObjOperation(obj_name, op_name, val);
+        }
+    }
 }
 
 void ProgramInterpreter::CreateInterpCommands() {

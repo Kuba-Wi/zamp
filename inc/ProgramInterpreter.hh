@@ -17,6 +17,7 @@ public:
 
 private:
     bool ExecPreprocesor(const char* filename, std::istringstream &outStream) const;
+    void AddObjectsToScene();
     void CreateInterpCommands();
     bool CreateInterpCommand(const std::string& libname);
     void RemoveInterpCommand(const std::string& libname);
