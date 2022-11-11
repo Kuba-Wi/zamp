@@ -8,11 +8,6 @@
 
 #include "Vector3D.hh"
 
-// struct Operation {
-//   std::string name;
-//   Vector3D params;
-// };
-
 using oper_map = std::map<std::string, Vector3D>;
 using nameOperations_pair = std::pair<std::string, oper_map>;
 
@@ -47,7 +42,7 @@ public:
                        const std::string& operName,
                        const Vector3D& operValues);
 
-private:
+// private:
   bool checkIfObjOpersContainObj(const std::string& objName);
 
   std::set<std::string> libNames_;

@@ -83,7 +83,9 @@ class XMLInterp4Config : public xercesc::DefaultHandler {
      * \brief Analizuje atrybuty i odpwiednio je interpretuje
      */
     void ProcessCubeAttrs(const xercesc::Attributes&   rAttrs); 
+
   private:
+    Configuration& config_;
 };
 
 #endif
