@@ -11,7 +11,7 @@ set(LIBRARIES
 include_directories(../plugin/inc)
 
 add_executable(libint_tests LibInterfaceUT.cpp ProgramInterpreterUT.cpp)
-target_link_libraries(libint_tests ${LIBRARIES} dl)
+target_link_libraries(libint_tests ${LIBRARIES} dl xerces-c)
 target_compile_options(libint_tests PRIVATE ${COMPILE_FLAGS})
 
 add_executable(int_move_tests Interp4MoveUT.cpp)

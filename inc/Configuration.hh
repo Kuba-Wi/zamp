@@ -42,6 +42,9 @@ public:
                        const std::string& operName,
                        const Vector3D& operValues);
 
+  const std::set<std::string>& getLibNames() const { return libNames_; }
+  const std::vector<nameOperations_pair>& getObjOperations() const { return objectsOperations_; }
+
 // private:
   bool checkIfObjOpersContainObj(const std::string& objName);
 

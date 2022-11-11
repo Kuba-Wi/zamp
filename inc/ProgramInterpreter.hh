@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 
+#include "Configuration.hh"
 #include "LibInterface.hh"
 #include "Scene.hh"
 
@@ -16,10 +17,12 @@ public:
 
 private:
     bool ExecPreprocesor(const char* filename, std::istringstream &outStream) const;
+    void CreateInterpCommands();
     bool CreateInterpCommand(const std::string& libname);
     void RemoveInterpCommand(const std::string& libname);
 
     std::map<std::string, std::unique_ptr<LibInterface>> LibManager_;
     int Socket2Serv_;
     Scene Scn_;
+    Configuration config_;
 };
