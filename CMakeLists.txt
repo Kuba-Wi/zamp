@@ -11,6 +11,7 @@ set(FILES
     src/Scene.cpp
     src/xmlinterp.cpp
     src/Configuration.cpp
+    src/Communication.cpp
 )
 
 set(COMPILE_FLAGS -Wall -pedantic)

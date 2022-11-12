@@ -18,7 +18,12 @@ bool ProgramInterpreter::ExecProgram(const char* filename) {
     this->CreateInterpCommands();
     this->AddObjectsToScene();
 
-    Scn_.printObjects();
+    std::string command;
+    this->BuildConfigurationCommand(command);
+    std::cout << command;
+
+    communication_.OpenConnection();
+    communication_.Send(command.c_str());
 
     std::istringstream cmdStream;
     if (!this->ExecPreprocesor(filename, cmdStream)) {
@@ -46,7 +51,27 @@ bool ProgramInterpreter::ExecProgram(const char* filename) {
         cmd_ptr->ExecCmd(nullptr, 0);
     }
 
+    communication_.Close();
+
     return true;
+}
+
+void ProgramInterpreter::BuildConfigurationCommand(std::string& command) {
+    std::ostringstream vec_str;
+    command += "Clear\n";
+    for (const auto& [obj_name, oper_vect] : config_.getObjOperations()) {
+        command += "AddObj Name=";
+        command += obj_name;
+        for (const auto& [op_name, val] : oper_vect) {
+            command += " ";
+            command += op_name;
+            command += "=";
+            vec_str = std::ostringstream{};
+            vec_str << val;
+            command += vec_str.str();
+        }
+        command += "\n";
+    }
 }
 
 bool ProgramInterpreter::ExecPreprocesor(const char* filename, std::istringstream &outStream) const {
