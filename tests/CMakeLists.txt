@@ -11,7 +11,7 @@ set(LIBRARIES
 include_directories(../plugin/inc)
 include_directories(fakes)
 
-add_executable(libint_tests LibInterfaceUT.cpp ProgramInterpreterUT.cpp)
+add_executable(libint_tests LibInterfaceUT.cpp ProgramInterpreterUT.cpp ConfigurationUT.cpp)
 target_link_libraries(libint_tests ${LIBRARIES} dl xerces-c)
 target_compile_options(libint_tests PRIVATE ${COMPILE_FLAGS})
 
