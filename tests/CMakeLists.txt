@@ -9,6 +9,7 @@ set(LIBRARIES
     pthread)
 
 include_directories(../plugin/inc)
+include_directories(fakes)
 
 add_executable(libint_tests LibInterfaceUT.cpp ProgramInterpreterUT.cpp)
 target_link_libraries(libint_tests ${LIBRARIES} dl xerces-c)

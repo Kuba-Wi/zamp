@@ -13,7 +13,7 @@
 class ProgramInterpreter {
 public:
     ProgramInterpreter(Communication& com) : communication_{com} {}
-    bool Read_XML_Config(const char* filename);
+    bool Read_XML_Config(const char* filename, const char* grammar_file);
     bool ExecProgram(const char* filename);
     bool SendSceneState2Server() { return true; }
 

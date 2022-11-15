@@ -130,7 +130,7 @@ void ProgramInterpreter::RemoveInterpCommand(const std::string& libname) {
     }
 }
 
-bool ProgramInterpreter::Read_XML_Config(const char* sFileName)
+bool ProgramInterpreter::Read_XML_Config(const char* sFileName, const char* grammar_file)
 {
    try {
             XMLPlatformUtils::Initialize();
@@ -160,7 +160,7 @@ bool ProgramInterpreter::Read_XML_Config(const char* sFileName)
 
    try {
      
-     if (!pParser->loadGrammar("../config/config.xsd",
+     if (!pParser->loadGrammar(grammar_file,
                               xercesc::Grammar::SchemaGrammarType,true)) {
        cerr << "!!! Plik grammar/actions.xsd, '" << endl
             << "!!! ktory zawiera opis gramatyki, nie moze zostac wczytany."
