@@ -9,7 +9,6 @@
 #include "Vector3D.hh"
 
 using oper_map = std::map<std::string, Vector3D>;
-using nameOperations_pair = std::pair<std::string, oper_map>;
 
 class defaultOperations {
 public:
@@ -43,13 +42,11 @@ public:
                        const Vector3D& operValues);
 
   const std::set<std::string>& getLibNames() const { return libNames_; }
-  const std::vector<nameOperations_pair>& getObjOperations() const { return objectsOperations_; }
+  const std::map<std::string, oper_map>& getObjOperations() const { return objectsOperations_; }
 
 private:
-  bool checkIfObjOpersContainObj(const std::string& objName);
-
   std::set<std::string> libNames_;
-  std::vector<nameOperations_pair> objectsOperations_;
+  std::map<std::string, oper_map> objectsOperations_;
   const defaultOperations defaultOperations_;
 };
 
