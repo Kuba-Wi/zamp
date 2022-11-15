@@ -94,9 +94,9 @@ bool ProgramInterpreter::ExecPreprocesor(const char* filename, std::istringstrea
 }
 
 void ProgramInterpreter::AddObjectsToScene() {
-    for (const auto& [obj_name, oper_vect] : config_.getObjOperations()) {
+    for (const auto& [obj_name, op_map] : config_.getObjOperations()) {
         Scn_.AddMobileObj(obj_name);
-        for (const auto& [op_name, val] : oper_vect) {
+        for (const auto& [op_name, val] : op_map) {
             Scn_.AddObjOperation(obj_name, op_name, val);
         }
     }
