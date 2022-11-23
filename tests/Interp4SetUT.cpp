@@ -1,6 +1,9 @@
 #include <gtest/gtest.h>
 
+#include <mutex>
+
 #include "Interp4Set.hh"
+#include "Scene.hh"
 
 TEST(SetTest, getCmdNameShouldReturnCommandName) {
     Interp4Set im;
@@ -16,7 +19,9 @@ TEST(SetTest, readParamsShouldReturnTrueWhenCorrectInput) {
 TEST(SetTest, execCmdShouldReturnTrueWhenCorrectInput) {
     Interp4Set im;
     std::istream str{std::istringstream{"Ob_A 123 90\n"}.rdbuf()};
-    ASSERT_TRUE(im.ExecCmd(nullptr, 0));
+    Scene scn;
+    std::mutex mx;
+    ASSERT_TRUE(im.ExecCmd(scn, 0, mx));
 }
 
 struct SetFalseTest : ::testing::Test, ::testing::WithParamInterface<const char*> {};

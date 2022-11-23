@@ -16,7 +16,9 @@ TEST(MoveTest, readParamsShouldReturnTrueWhenCorrectInput) {
 TEST(MoveTest, execCmdShouldReturnTrueWhenCorrectInput) {
     Interp4Move im;
     std::istream str{std::istringstream{"Ob_A 123 90\n"}.rdbuf()};
-    ASSERT_TRUE(im.ExecCmd(nullptr, 0));
+    Scene scn;
+    std::mutex mx;
+    ASSERT_TRUE(im.ExecCmd(scn, 0, mx));
 }
 
 struct MoveFalseTest : ::testing::Test, ::testing::WithParamInterface<const char*> {};
