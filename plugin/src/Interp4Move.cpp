@@ -66,13 +66,15 @@ bool Interp4Move::ExecCmd(Scene& scn, Communication& com) const
 
   obj_ptr->SetVectParam("Trans_m", trans_vec);
 
-  double sleep_time = _Distance_m / _Speed_mS / 10;
+  const size_t fraction = 100;
+
+  double sleep_time = _Distance_m / _Speed_mS / fraction;
   std::string command;
   std::ostringstream vec_str;
 
-  for (size_t i = 0; i < 10; ++i) {
+  for (size_t i = 0; i < fraction; ++i) {
     for (size_t j = 0; j < 3; ++j) {
-      trans_cp[j] += (move_vector[j] / 10);
+      trans_cp[j] += (move_vector[j] / fraction);
     }
 
     command = "UpdateObj Name=";
