@@ -78,6 +78,7 @@
         }
 
         const std::map<std::string, Vector3D>& getVecMap() { return _name_vec_map; }
+        Vector3D getParameterVec(const std::string& name) { return _name_vec_map[name]; }
       /*!
        * \brief Udostępia wartość kąta \e roll.
        *

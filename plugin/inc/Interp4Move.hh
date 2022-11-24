@@ -54,7 +54,7 @@ class Interp4Move: public Interp4Command {
   /*!
    * \brief Wykonuje polecenie oraz wizualizuje jego realizację
    */
-  bool ExecCmd(Scene& scn, int socket, std::mutex& mut) const override;
+  bool ExecCmd(Scene& scn, Communication& com) const override;
   /*!
    * \brief Czyta wartości parametrów danego polecenia
    */

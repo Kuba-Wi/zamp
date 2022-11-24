@@ -48,8 +48,7 @@ bool ProgramInterpreter::ExecProgram(const char* filename) {
             return false;
         }
         cmd_ptr->PrintCmd();
-        std::mutex mut;
-        cmd_ptr->ExecCmd(Scn_, 0, mut);
+        cmd_ptr->ExecCmd(Scn_, communication_);
     }
 
     communication_.Close();

@@ -30,7 +30,7 @@ const char* Interp4Pause::GetCmdName() const
   return ::GetCmdName();
 }
 
-bool Interp4Pause::ExecCmd(Scene& scn, int socket, std::mutex& mut) const
+bool Interp4Pause::ExecCmd(Scene& scn, Communication& com) const
 {
   /*
    *  Tu trzeba napisać odpowiedni kod.

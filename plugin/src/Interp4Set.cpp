@@ -41,7 +41,7 @@ const char* Interp4Set::GetCmdName() const
   return ::GetCmdName();
 }
 
-bool Interp4Set::ExecCmd(Scene& scn, int socket, std::mutex& mut) const
+bool Interp4Set::ExecCmd(Scene& scn, Communication& com) const
 {
   /*
    *  Tu trzeba napisać odpowiedni kod.

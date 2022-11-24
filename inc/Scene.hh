@@ -8,8 +8,13 @@
 
 class Scene {
 public:
-    std::shared_ptr<MobileObj> FindMobileObj(const char* sObjName);
-    std::shared_ptr<MobileObj> FindMobileObj(const std::string& rObjName);
+    std::shared_ptr<MobileObj> FindMobileObj(const std::string& rObjName) {
+        if (Set_MobileObjs_.find(rObjName) != Set_MobileObjs_.end()) {
+            return Set_MobileObjs_[rObjName];
+        }
+        return nullptr;
+    }
+
     void AddMobileObj(const std::string& name);
     void AddObjOperation(const std::string& objName,
                          const std::string& operName,

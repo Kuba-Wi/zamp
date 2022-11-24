@@ -1,8 +1,7 @@
 #ifndef  INTERP4COMMAND_HH
 #define  INTERP4COMMAND_HH
 
-#include <mutex>
-
+#include "Communication.hh"
 #include "MobileObj.hh"
 #include "Scene.hh"
 
@@ -41,7 +40,7 @@
    /*!
     * \brief Wykonuje polecenie oraz wizualizuje jego realizację.
     */
-   virtual bool ExecCmd(Scene& scn, int socket, std::mutex& mut) const = 0;
+   virtual bool ExecCmd(Scene& scn, Communication& com) const = 0;
    /*!
     * \brief Czyta wartości parametrów danego polecenia.
     */
