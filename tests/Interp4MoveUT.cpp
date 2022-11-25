@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include "CommunicationFake.hh"
 #include "Interp4Move.hh"
 
 TEST(MoveTest, getCmdNameShouldReturnCommandName) {
@@ -13,12 +14,21 @@ TEST(MoveTest, readParamsShouldReturnTrueWhenCorrectInput) {
     ASSERT_TRUE(im.ReadParams(str));
 }
 
-TEST(MoveTest, execCmdShouldReturnTrueWhenCorrectInput) {
+TEST(MoveTest, execCmdShouldReturnFalseWhenNoMobileObj) {
     Interp4Move im;
-    std::istream str{std::istringstream{"Ob_A 123 90\n"}.rdbuf()};
+    CommunicationFake com_fake;
     Scene scn;
-    std::mutex mx;
-    ASSERT_TRUE(im.ExecCmd(scn, 0, mx));
+    ASSERT_FALSE(im.ExecCmd(scn, com_fake));
+}
+
+TEST(MoveTest, execCmdShouldReturnTrueForCorrectMobileObj) {
+    Interp4Move im;
+    CommunicationFake com_fake;
+    Scene scn;
+    std::istream str{std::istringstream{"Ob_A 123 9\n"}.rdbuf()};
+    im.ReadParams(str);
+    scn.AddMobileObj("Ob_A");
+    ASSERT_TRUE(im.ExecCmd(scn, com_fake));
 }
 
 struct MoveFalseTest : ::testing::Test, ::testing::WithParamInterface<const char*> {};

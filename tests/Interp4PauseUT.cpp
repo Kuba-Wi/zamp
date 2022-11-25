@@ -1,24 +1,24 @@
 #include <gtest/gtest.h>
 
+#include "CommunicationFake.hh"
 #include "Interp4Pause.hh"
 
 TEST(PauseTest, getCmdNameShouldReturnCommandName) {
-    Interp4Pause im;
-    ASSERT_STREQ(im.GetCmdName(), "Pause");
+    Interp4Pause ip;
+    ASSERT_STREQ(ip.GetCmdName(), "Pause");
 }
 
 TEST(PauseTest, readParamsShouldReturnTrueWhenCorrectInput) {
-    Interp4Pause im;
+    Interp4Pause ip;
     std::istream str{std::istringstream{"23\n"}.rdbuf()};
-    ASSERT_TRUE(im.ReadParams(str));
+    ASSERT_TRUE(ip.ReadParams(str));
 }
 
-TEST(PauseTest, execCmdShouldReturnTrueWhenCorrectInput) {
-    Interp4Pause im;
-    std::istream str{std::istringstream{"Ob_A 123 90\n"}.rdbuf()};
+TEST(PauseTest, execCmdShouldReturnTrueWhenNoMobileObj) {
+    Interp4Pause ip;
+    CommunicationFake com_fake;
     Scene scn;
-    std::mutex mx;
-    ASSERT_TRUE(im.ExecCmd(scn, 0, mx));
+    ASSERT_TRUE(ip.ExecCmd(scn, com_fake));
 }
 
 struct PauseFalseTest : ::testing::Test, ::testing::WithParamInterface<const char*> {};
@@ -29,7 +29,7 @@ INSTANTIATE_TEST_CASE_P(TestsWithFalseResult,
                                           ""));
 
 TEST_P(PauseFalseTest, readParamsShouldReturnFalseWhenWrongInput) {
-    Interp4Pause im;
+    Interp4Pause ip;
     std::istream str{std::istringstream{GetParam()}.rdbuf()};
-    ASSERT_FALSE(im.ReadParams(str));
+    ASSERT_FALSE(ip.ReadParams(str));
 }
