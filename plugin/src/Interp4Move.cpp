@@ -47,49 +47,44 @@ bool Interp4Move::ExecCmd(Scene& scn, Communication& com) const
     return false;
   }
 
-  obj_ptr->lockAccess();
-  auto rot_vec = obj_ptr->getParameterVec("RotXYZ_deg");
-  auto trans_vec = obj_ptr->getParameterVec("Trans_m");
-  auto trans_cp = trans_vec;
-  Vector3D move_vector;
-
   const double pi = std::acos(-1);
-  double alpha = rot_vec[0] * pi / 180;
-  double beta = rot_vec[1] * pi / 180;
-  double gamma = rot_vec[2] * pi / 180;
-  move_vector[0] = (cos(alpha)*sin(beta)*cos(gamma) + sin(alpha)*sin(gamma)) * _Distance_m;
-  move_vector[1] = (cos(alpha)*sin(beta)*sin(gamma) - sin(alpha)*cos(gamma)) * _Distance_m;
-  move_vector[2] = cos(alpha)*cos(beta) * _Distance_m;
-
-  for (size_t i = 0; i < 3; ++i) {
-    trans_vec[i] += move_vector[i];
-  }
-
-  obj_ptr->SetVectParam("Trans_m", trans_vec);
-
+  double alpha, beta, gamma;
   const size_t fraction = 100;
   double sleep_time = _Distance_m / _Speed_mS / fraction;
   std::string command;
   std::ostringstream vec_str;
+  Vector3D move_vector, rot_vec, trans_vec;
 
   for (size_t i = 0; i < fraction; ++i) {
+    obj_ptr->lockAccess();
+    rot_vec = obj_ptr->getParameterVec("RotXYZ_deg");
+    trans_vec = obj_ptr->getParameterVec("Trans_m");
+
+    alpha = rot_vec[0] * pi / 180;
+    beta = rot_vec[1] * pi / 180;
+    gamma = rot_vec[2] * pi / 180;
+    move_vector[0] = (cos(alpha)*sin(beta)*cos(gamma) + sin(alpha)*sin(gamma)) * _Distance_m;
+    move_vector[1] = (cos(alpha)*sin(beta)*sin(gamma) - sin(alpha)*cos(gamma)) * _Distance_m;
+    move_vector[2] = cos(alpha)*cos(beta) * _Distance_m;
+
     for (size_t j = 0; j < 3; ++j) {
-      trans_cp[j] += (move_vector[j] / fraction);
+      trans_vec[j] += (move_vector[j] / fraction);
     }
+    obj_ptr->SetVectParam("Trans_m", trans_vec);
 
     command = "UpdateObj Name=";
     command += _ObjectName;
     command += " Trans_m=";
 
     vec_str = std::ostringstream{};
-    vec_str << trans_cp;
+    vec_str << trans_vec;
     command += vec_str.str();
     command += "\n";
-    std::this_thread::sleep_for(std::chrono::milliseconds(int(sleep_time * 1000)));
     com.Send(command.c_str());
-  }
+    obj_ptr->unlockAccess();
 
-  obj_ptr->unlockAccess();
+    std::this_thread::sleep_for(std::chrono::milliseconds(int(sleep_time * 1000)));
+  }
 
   return true;
 }

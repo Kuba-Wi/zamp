@@ -46,48 +46,42 @@ bool Interp4Rotate::ExecCmd(Scene& scn, Communication& com) const
     return false;
   }
 
-  obj_ptr->lockAccess();
-
-  auto rot_vec = obj_ptr->getParameterVec("RotXYZ_deg");
-  auto rot_cp = rot_vec;
-  Vector3D rot_tmp;
-
-  const double pi = std::acos(-1);
-  double alpha = rot_vec[0] * pi / 180;
-  double beta = rot_vec[1] * pi / 180;
-  double gamma = rot_vec[2] * pi / 180;
-  rot_tmp[0] = (cos(alpha)*sin(beta)*cos(gamma) + sin(alpha)*sin(gamma)) * _Angle;
-  rot_tmp[1] = (cos(alpha)*sin(beta)*sin(gamma) - sin(alpha)*cos(gamma)) * _Angle;
-  rot_tmp[2] = cos(alpha)*cos(beta) * _Angle;
-
-  for (size_t i = 0; i < 3; ++i) {
-    rot_vec[i] += rot_tmp[i];
-  }
-  obj_ptr->SetVectParam("RotXYZ_deg", rot_vec);
-
   const size_t fraction = 100;
   double sleep_time = _Angle / _Speed / fraction;
   std::string command;
   std::ostringstream vec_str;
+  Vector3D rot_vec, rot_tmp;
+  double alpha, beta, gamma;
+  const double pi = std::acos(-1);
 
   for (size_t i = 0; i < fraction; ++i) {
+    obj_ptr->lockAccess();
+    rot_vec = obj_ptr->getParameterVec("RotXYZ_deg");
+    alpha = rot_vec[0] * pi / 180;
+    beta = rot_vec[1] * pi / 180;
+    gamma = rot_vec[2] * pi / 180;
+    rot_tmp[0] = (cos(alpha)*sin(beta)*cos(gamma) + sin(alpha)*sin(gamma)) * _Angle;
+    rot_tmp[1] = (cos(alpha)*sin(beta)*sin(gamma) - sin(alpha)*cos(gamma)) * _Angle;
+    rot_tmp[2] = cos(alpha)*cos(beta) * _Angle;
+
     for (size_t j = 0; j < 3; ++j) {
-      rot_cp[j] += (rot_tmp[j] / fraction);
+      rot_vec[j] += (rot_tmp[j] / fraction);
     }
+
+    obj_ptr->SetVectParam("RotXYZ_deg", rot_vec);
 
     command = "UpdateObj Name=";
     command += _ObjectName;
     command += " RotXYZ_deg=";
 
     vec_str = std::ostringstream{};
-    vec_str << rot_cp;
+    vec_str << rot_vec;
     command += vec_str.str();
     command += "\n";
-    std::this_thread::sleep_for(std::chrono::milliseconds(int(sleep_time * 1000)));
     com.Send(command.c_str());
+    obj_ptr->unlockAccess();
+    std::this_thread::sleep_for(std::chrono::milliseconds(int(sleep_time * 1000)));
   }
-
-  obj_ptr->unlockAccess();
 
   return true;
 }
