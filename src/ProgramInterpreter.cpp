@@ -14,10 +14,6 @@
 using namespace std;
 using namespace xercesc;
 
-void foo() {
-
-}
-
 bool ProgramInterpreter::ExecProgram(const char* filename) {
     this->CreateInterpCommands();
     this->AddObjectsToScene();
