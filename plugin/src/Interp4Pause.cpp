@@ -1,4 +1,6 @@
+#include <chrono>
 #include <iostream>
+#include <thread>
 
 #include "Interp4Pause.hh"
 #include "MobileObj.hh"
@@ -32,10 +34,7 @@ const char* Interp4Pause::GetCmdName() const
 
 bool Interp4Pause::ExecCmd(Scene& scn, Communication& com) const
 {
-  /*
-   *  Tu trzeba napisać odpowiedni kod.
-   */
-  std::cout << "Executing pause: " << _Time << " " << std::endl;
+  std::this_thread::sleep_for(std::chrono::milliseconds(_Time));
 
   return true;
 }

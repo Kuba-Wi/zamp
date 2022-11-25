@@ -21,7 +21,6 @@ bool Communication::OpenConnection()
   DaneAdSerw.sin_addr.s_addr = inet_addr("127.0.0.1");
   DaneAdSerw.sin_port = htons(PORT);
 
-
   Socket4Sending_ = socket(AF_INET,SOCK_STREAM,0);
 
   if (Socket4Sending_ < 0) {

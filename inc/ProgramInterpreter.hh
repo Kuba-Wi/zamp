@@ -1,9 +1,11 @@
 #pragma once
 
+#include <list>
 #include <map>
 #include <memory>
 #include <sstream>
 #include <string>
+#include <thread>
 
 #include "Communication.hh"
 #include "Configuration.hh"
@@ -29,4 +31,5 @@ private:
     Scene Scn_;
     Configuration config_;
     Communication& communication_;
+    std::list<std::thread> threads_list_;
 };

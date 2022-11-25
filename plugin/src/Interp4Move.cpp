@@ -47,6 +47,7 @@ bool Interp4Move::ExecCmd(Scene& scn, Communication& com) const
     return false;
   }
 
+  obj_ptr->lockAccess();
   auto rot_vec = obj_ptr->getParameterVec("RotXYZ_deg");
   auto trans_vec = obj_ptr->getParameterVec("Trans_m");
   auto trans_cp = trans_vec;
@@ -67,11 +68,11 @@ bool Interp4Move::ExecCmd(Scene& scn, Communication& com) const
   obj_ptr->SetVectParam("Trans_m", trans_vec);
 
   const size_t fraction = 100;
-
   double sleep_time = _Distance_m / _Speed_mS / fraction;
   std::string command;
   std::ostringstream vec_str;
 
+  com.lockAccess();
   for (size_t i = 0; i < fraction; ++i) {
     for (size_t j = 0; j < 3; ++j) {
       trans_cp[j] += (move_vector[j] / fraction);
@@ -88,6 +89,9 @@ bool Interp4Move::ExecCmd(Scene& scn, Communication& com) const
     std::this_thread::sleep_for(std::chrono::milliseconds(int(sleep_time * 1000)));
     com.Send(command.c_str());
   }
+
+  obj_ptr->unlockAccess();
+  com.unlockAccess();
 
   return true;
 }

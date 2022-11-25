@@ -2,6 +2,7 @@
 #define MOBILEOBJ_HH
 
 #include <map>
+#include <mutex>
 #include <string>
 #include "Vector3D.hh"
 
@@ -67,6 +68,7 @@
 
        std::string  _Name;
        std::map<std::string, Vector3D> _name_vec_map; 
+       std::mutex _obj_mx;
 
      public:
         MobileObj() {
@@ -77,8 +79,21 @@
             _name_vec_map["Trans_m"] = Vector3D{};
         }
 
-        const std::map<std::string, Vector3D>& getVecMap() { return _name_vec_map; }
-        Vector3D getParameterVec(const std::string& name) { return _name_vec_map[name]; }
+        void lockAccess() {
+            _obj_mx.lock();
+        }
+
+        void unlockAccess() {
+            _obj_mx.unlock();
+        }
+
+        const std::map<std::string, Vector3D>& getVecMap() {
+            return _name_vec_map; 
+        }
+
+        Vector3D getParameterVec(const std::string& name) {
+            return _name_vec_map[name]; 
+        }
       /*!
        * \brief Udostępia wartość kąta \e roll.
        *
@@ -153,16 +168,20 @@
        *  Zmienia nazwę obiektu.
        *  \param[in] sName - nowa nazwa obiektu.
        */
-       void SetName(const char* sName) { _Name = sName; }
+       void SetName(const char* sName) {
+            _Name = sName; 
+        }
        /*!
         * \brief Udostępnia nazwę obiektu.
 	*
 	* Udostępnia nazwę obiektu w trybie tylko do odczytu.
         */
-       const std::string & GetName() const { return _Name; }
+       const std::string & GetName() {
+            return _Name; 
+        }
 
        void SetVectParam(const std::string& name, const Vector3D& values) {
-          _name_vec_map[name] = values;
+            _name_vec_map[name] = values;
        }
     };
 

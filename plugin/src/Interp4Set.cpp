@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 
 #include "Interp4Set.hh"
 #include "MobileObj.hh"
@@ -43,14 +44,48 @@ const char* Interp4Set::GetCmdName() const
 
 bool Interp4Set::ExecCmd(Scene& scn, Communication& com) const
 {
-  /*
-   *  Tu trzeba napisać odpowiedni kod.
-   */
-  std::cout << "Executing set: " 
-            << _ObjectName << " "
-            << _Position_x << " "
-            << _Position_y << " "
-            << _Angle_Oz << std::endl;
+  auto obj_ptr = scn.FindMobileObj(_ObjectName);
+  if (!obj_ptr) {
+    return false;
+  }
+
+  obj_ptr->lockAccess();
+
+  auto rot_vec = obj_ptr->getParameterVec("RotXYZ_deg");
+  auto trans_tmp = obj_ptr->getParameterVec("Trans_m");
+  Vector3D trans_vec;
+  trans_vec[0] = _Position_x;
+  trans_vec[1] = _Position_y;
+  trans_vec[2] = trans_tmp[2];
+  rot_vec[2] = _Angle_Oz;
+
+  obj_ptr->SetVectParam("Trans_m", trans_vec);
+  obj_ptr->SetVectParam("RotXYZ_deg", rot_vec);
+
+  std::string command;
+  std::ostringstream vec_str;
+
+  com.lockAccess();
+
+  command = "UpdateObj Name=";
+  command += _ObjectName;
+  command += " Trans_m=";
+  vec_str << trans_vec;
+  command += vec_str.str();
+  command += "\n";
+  com.Send(command.c_str());
+
+  command = "UpdateObj Name=";
+  command += _ObjectName;
+  command += " RotXYZ_deg=";
+  vec_str = std::ostringstream{};
+  vec_str << rot_vec;
+  command += vec_str.str();
+  command += "\n";
+  com.Send(command.c_str());
+
+  obj_ptr->unlockAccess();
+  com.unlockAccess();
 
   return true;
 }

@@ -14,6 +14,10 @@
 using namespace std;
 using namespace xercesc;
 
+void foo() {
+
+}
+
 bool ProgramInterpreter::ExecProgram(const char* filename) {
     this->CreateInterpCommands();
     this->AddObjectsToScene();
@@ -47,8 +51,15 @@ bool ProgramInterpreter::ExecProgram(const char* filename) {
             std::cout << "Error in reading parameters of plugin " << plugin_name << std::endl;
             return false;
         }
-        cmd_ptr->PrintCmd();
-        cmd_ptr->ExecCmd(Scn_, communication_);
+
+        threads_list_.emplace_back(std::thread{[&, cmd = std::move(cmd_ptr)](){
+            cmd->PrintCmd();
+            cmd->ExecCmd(Scn_, communication_);
+        }});
+    }
+
+    for (auto& th : threads_list_) {
+        th.join();
     }
 
     communication_.Close();

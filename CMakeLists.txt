@@ -21,8 +21,8 @@ add_library(interp_core_lib STATIC ${FILES})
 target_compile_options(interp_core_lib PRIVATE ${COMPILE_FLAGS})
 
 add_executable(${PROJECT_NAME} src/main.cpp)
-target_link_libraries(${PROJECT_NAME} interp_core_lib dl xerces-c)
+target_link_libraries(${PROJECT_NAME} interp_core_lib dl xerces-c pthread)
 target_compile_options(${PROJECT_NAME} PRIVATE ${COMPILE_FLAGS})
 
 add_subdirectory(plugin)
-add_subdirectory(tests)
+# add_subdirectory(tests)
