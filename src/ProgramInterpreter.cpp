@@ -21,7 +21,9 @@ bool ProgramInterpreter::ExecProgram(const char* filename) {
     std::string command;
     this->BuildConfigurationCommand(command);
 
-    communication_.OpenConnection();
+    if (!communication_.OpenConnection()) {
+        return false;
+    }
     communication_.Send(command.c_str());
 
     std::istringstream cmdStream;
