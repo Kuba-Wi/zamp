@@ -41,6 +41,9 @@ int Communication::Send(const char *sMesg)
   ssize_t  IlWyslanych;
   ssize_t  IlDoWyslania = (ssize_t) strlen(sMesg);
 
+  std::lock_guard lg{com_mx_};
+  std::cout << sMesg;
+
   while ((IlWyslanych = write(Socket4Sending_, sMesg,IlDoWyslania)) > 0) {
     IlDoWyslania -= IlWyslanych;
     sMesg += IlWyslanych;

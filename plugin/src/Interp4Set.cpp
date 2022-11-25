@@ -65,8 +65,6 @@ bool Interp4Set::ExecCmd(Scene& scn, Communication& com) const
   std::string command;
   std::ostringstream vec_str;
 
-  com.lockAccess();
-
   command = "UpdateObj Name=";
   command += _ObjectName;
   command += " Trans_m=";
@@ -85,7 +83,6 @@ bool Interp4Set::ExecCmd(Scene& scn, Communication& com) const
   com.Send(command.c_str());
 
   obj_ptr->unlockAccess();
-  com.unlockAccess();
 
   return true;
 }

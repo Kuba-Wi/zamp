@@ -72,7 +72,6 @@ bool Interp4Move::ExecCmd(Scene& scn, Communication& com) const
   std::string command;
   std::ostringstream vec_str;
 
-  com.lockAccess();
   for (size_t i = 0; i < fraction; ++i) {
     for (size_t j = 0; j < 3; ++j) {
       trans_cp[j] += (move_vector[j] / fraction);
@@ -91,7 +90,6 @@ bool Interp4Move::ExecCmd(Scene& scn, Communication& com) const
   }
 
   obj_ptr->unlockAccess();
-  com.unlockAccess();
 
   return true;
 }

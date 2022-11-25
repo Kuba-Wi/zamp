@@ -10,8 +10,8 @@ public:
     virtual int Send(const char *sMesg);
     virtual int Close();
 
-    void lockAccess() { com_mx_.lock(); }
-    void unlockAccess() { com_mx_.unlock(); }
+    // void lockAccess() { com_mx_.lock(); }
+    // void unlockAccess() { com_mx_.unlock(); }
 
 private:
     int Socket4Sending_;

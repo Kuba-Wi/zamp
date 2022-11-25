@@ -24,7 +24,6 @@ bool ProgramInterpreter::ExecProgram(const char* filename) {
 
     std::string command;
     this->BuildConfigurationCommand(command);
-    std::cout << command;
 
     communication_.OpenConnection();
     communication_.Send(command.c_str());
@@ -36,6 +35,18 @@ bool ProgramInterpreter::ExecProgram(const char* filename) {
 
     std::string plugin_name;
     while (cmdStream >> plugin_name) {
+        if (plugin_name == "Begin_Parallel_Actions") {
+            continue;
+        }
+
+        if (plugin_name == "End_Parallel_Actions") {
+            for (auto& th : threads_list_) {
+                th.join();
+            }
+            threads_list_.clear();
+            continue;
+        }
+
         if (LibManager_.find(plugin_name) == LibManager_.end()) {
             std::cout << "No plugin named: " << plugin_name << std::endl;
             return true;
@@ -53,7 +64,6 @@ bool ProgramInterpreter::ExecProgram(const char* filename) {
         }
 
         threads_list_.emplace_back(std::thread{[&, cmd = std::move(cmd_ptr)](){
-            cmd->PrintCmd();
             cmd->ExecCmd(Scn_, communication_);
         }});
     }
@@ -69,7 +79,7 @@ bool ProgramInterpreter::ExecProgram(const char* filename) {
 
 void ProgramInterpreter::BuildConfigurationCommand(std::string& command) {
     std::ostringstream vec_str;
-    command += "Clear\n";
+    command = "Clear\n";
     for (const auto& [obj_name, oper_vect] : config_.getObjOperations()) {
         command += "AddObj Name=";
         command += obj_name;
